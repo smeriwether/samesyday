@@ -311,7 +311,7 @@
   }
 
   .calculation-details {
-    @apply mt-5 hidden overflow-hidden rounded-lg border border-ink/10 bg-cream sm:block;
+    @apply mt-5 block overflow-hidden rounded-lg border border-ink/10 bg-cream;
   }
 
   .calculation-details summary {
