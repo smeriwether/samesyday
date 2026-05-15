@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">Samesy Day social card</title>
+  <desc id="description">A warm card for Samesy Day showing a pet-human age match preview.</desc>
+  <defs>
+    <linearGradient id="pageWash" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fffffa"/>
+      <stop offset="0.52" stop-color="#f8f4e9"/>
+      <stop offset="1" stop-color="#f1dfd4"/>
+    </linearGradient>
+    <linearGradient id="panelWash" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fffffa"/>
+      <stop offset="0.58" stop-color="#fbf7ed"/>
+      <stop offset="1" stop-color="#f6e5da"/>
+    </linearGradient>
+    <filter id="softShadow" x="-8%" y="-14%" width="116%" height="128%">
+      <feDropShadow dx="0" dy="24" stdDeviation="28" flood-color="#17211f" flood-opacity="0.14"/>
+    </filter>
+    <pattern id="grid" width="92" height="92" patternUnits="userSpaceOnUse">
+      <path d="M 92 0 L 0 0 0 92" fill="none" stroke="#0f8f84" stroke-width="1" opacity="0.13"/>
+    </pattern>
+    <style>
+      .serif {
+        font-family: "Fraunces", Georgia, Cambria, "Times New Roman", serif;
+        font-weight: 650;
+      }
+      .sans {
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-weight: 850;
+      }
+      .body {
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-weight: 650;
+      }
+    </style>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#panelWash)"/>
+  <rect width="1200" height="630" fill="url(#pageWash)" opacity="0.72"/>
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.28"/>
+  <path d="M0 579 H1200" fill="none" stroke="#17211f" stroke-opacity="0.08" stroke-width="2"/>
+  <path d="M0 51 H1200" fill="none" stroke="#fffffa" stroke-opacity="0.72" stroke-width="2"/>
+
+  <g transform="translate(96 138)">
+    <text class="serif" x="0" y="0" fill="#0a4f4b" font-size="68" letter-spacing="0">Samesy Day</text>
+    <text class="body" x="0" y="84" fill="#63706b" font-size="33">
+      <tspan x="0" dy="0">Find the next day you</tspan>
+      <tspan x="0" dy="44">and your pet are the</tspan>
+      <tspan x="0" dy="44">same age.</tspan>
+    </text>
+  </g>
+
+  <g transform="translate(612 82)" filter="url(#softShadow)">
+    <rect x="0" y="0" width="492" height="420" rx="18" fill="#fffffa" stroke="#17211f" stroke-opacity="0.12" stroke-width="2"/>
+    <rect x="0" y="0" width="492" height="420" rx="18" fill="url(#grid)" opacity="0.78"/>
+
+    <text class="serif" x="34" y="75" fill="#0a4f4b" font-size="52">Samesy Day</text>
+
+    <text class="sans" x="34" y="171" fill="#17211f" font-size="30">My</text>
+    <rect x="90" y="132" width="88" height="62" rx="15" fill="#fffffa" stroke="#17211f" stroke-opacity="0.14" stroke-width="2"/>
+    <text class="sans" x="115" y="171" fill="#17211f" font-size="25">dog</text>
+    <text class="sans" x="194" y="171" fill="#17211f" font-size="30">and I match on</text>
+
+    <rect x="34" y="232" width="424" height="120" rx="16" fill="#fffaf0" stroke="#17211f" stroke-opacity="0.1" stroke-width="2"/>
+    <text class="serif" x="62" y="303" fill="#17211f" font-size="62">June 18</text>
+    <text class="body" x="62" y="342" fill="#63706b" font-size="22">Same in pet-human years</text>
+  </g>
+</svg>

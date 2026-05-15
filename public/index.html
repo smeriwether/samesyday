@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Samesy Day</title>
+    <meta name="description" content="Find the next day you and your cat or dog are the same age in pet-human years.">
+    <meta name="theme-color" content="#fffffa">
+    <meta property="og:title" content="Samesy Day">
+    <meta property="og:description" content="A tiny calculator for the next day you and your pet are the same age.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://samesyday.pages.dev/">
+    <meta property="og:image" content="https://samesyday.pages.dev/assets/social-card.png">
+    <meta property="og:image:alt" content="Samesy Day, a pet-human age calculator.">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Samesy Day">
+    <meta name="twitter:description" content="Find the next day you and your pet are the same age.">
+    <meta name="twitter:image" content="https://samesyday.pages.dev/assets/social-card.png">
+    <meta name="twitter:image:alt" content="Samesy Day, a pet-human age calculator.">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Inter:wght@500;650;750;850;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles.css">
+    <script src="assets/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#calculator-section">Skip to calculator</a>
+    <div class="page-shell">
+      <main id="main-content">
+        <section class="hero" aria-labelledby="page-title">
+          <h1 id="page-title" class="hero-title">Samesy Day</h1>
+          <p class="hero-copy">
+            Find the next day you and your cat or dog are the same age, using lived days and a pet-human aging curve instead of matching calendar birthdays.
+          </p>
+        </section>
+
+        <section id="calculator-section" class="calculator" aria-labelledby="calculator-title" tabindex="-1">
+          <h2 id="calculator-title" class="sr-only">Samesy Day calculator</h2>
+          <form id="samesy-form" novalidate aria-describedby="form-error">
+            <div class="sentence-form">
+              <span class="sentence-text my-text">My</span>
+              <label class="field-group compact pet-field">
+                <span class="field-label">Pet</span>
+                <select id="pet-type" class="sentence-control" name="petType" autocomplete="off">
+                  <option value="dog">dog</option>
+                  <option value="cat">cat</option>
+                </select>
+              </label>
+              <span id="dog-details" class="dog-details">
+                <label class="field-group breed-field">
+                  <span class="field-label">Dog breed</span>
+                  <select id="dog-breed" class="sentence-control" name="dogBreed" autocomplete="off">
+                    <option value="">Select a breed</option>
+                    <option>Australian Shepherd</option>
+                    <option>Beagle</option>
+                    <option>Bernese Mountain Dog</option>
+                    <option>Border Collie</option>
+                    <option>Boxer</option>
+                    <option>Bulldog</option>
+                    <option>Chihuahua</option>
+                    <option>Cocker Spaniel</option>
+                    <option>Dachshund</option>
+                    <option>French Bulldog</option>
+                    <option>German Shepherd</option>
+                    <option>Golden Retriever</option>
+                    <option>Great Dane</option>
+                    <option>Irish Wolfhound</option>
+                    <option>Labrador Retriever</option>
+                    <option>Mastiff</option>
+                    <option>Mixed Breed</option>
+                    <option>Newfoundland</option>
+                    <option>Pomeranian</option>
+                    <option>Poodle</option>
+                    <option>Shih Tzu</option>
+                    <option>Yorkshire Terrier</option>
+                  </select>
+                </label>
+              </span>
+              <span class="sentence-text born-text">was born on</span>
+              <label class="field-group date-field pet-date-field">
+                <span class="field-label">Pet birthday</span>
+                <input id="pet-birthday" class="sentence-control" name="petBirthday" type="date" required autocomplete="off">
+              </label>
+              <span class="sentence-text human-born-text">and I was born on</span>
+              <label class="field-group date-field human-date-field">
+                <span class="field-label">Your birthday</span>
+                <input id="human-birthday" class="sentence-control" name="humanBirthday" type="date" required autocomplete="bday">
+              </label>
+            </div>
+
+            <button class="primary-button" type="submit">When is our Samesy Day?</button>
+            <p id="form-error" class="error-text" role="alert" aria-live="assertive"></p>
+          </form>
+
+          <section id="answer-panel" class="answer-panel is-hidden" aria-live="polite" aria-atomic="false" aria-labelledby="answer-label answer-date" tabindex="-1">
+            <div>
+              <p id="answer-label" class="answer-label">Your Samesy Day</p>
+              <h2 id="answer-date" class="answer-date"></h2>
+              <p id="answer-copy" class="answer-subcopy"></p>
+              <dl class="stats-grid" aria-label="Age comparison">
+                <div class="stat-box">
+                  <dt class="stat-label">Your age</dt>
+                  <dd id="human-age-stat" class="stat-value"></dd>
+                </div>
+                <div class="stat-box">
+                  <dt class="stat-label">Pet-human age</dt>
+                  <dd id="pet-age-stat" class="stat-value"></dd>
+                </div>
+              </dl>
+              <details id="calculation-details" class="calculation-details">
+                <summary>Show the exact math</summary>
+                <div id="calculation-breakdown" class="calculation-breakdown"></div>
+              </details>
+            </div>
+            <div class="chart-wrap">
+              <canvas id="age-chart" width="720" height="420" role="img" aria-label="Line chart showing person days and pet-human days crossing" aria-describedby="chart-summary"></canvas>
+              <p id="chart-summary" class="sr-only">Submit the form to draw an age comparison chart.</p>
+            </div>
+          </section>
+        </section>
+
+        <section class="explanation" aria-labelledby="explanation-title">
+          <div>
+            <h2 id="explanation-title" class="section-heading">How the math works</h2>
+          </div>
+          <div class="explanation-copy">
+            <p>
+              Samesy Day converts each birthday into days lived. For you, one lived day counts as one human day. For pets, each lived day moves through a human-equivalent aging curve, then the site searches forward until those two day totals meet.
+            </p>
+            <ul class="formula-list">
+              <li class="formula-item">
+                <strong>Dogs</strong>
+                <span>Most people know the 7-to-1 shortcut. Samesy Day stays close to it, with a small puppy-years bump and a breed-size nudge: small dogs a bit slower, large dogs a bit faster.</span>
+              </li>
+              <li class="formula-item">
+                <strong>Cats</strong>
+                <span>A common rough conversion for cats is 1 cat year is about 15 human years, 2 cat years is about 24 human years, then each additional cat year adds about 4 human years.</span>
+              </li>
+              <li class="formula-item">
+                <strong>Dates</strong>
+                <span>The answer is the first calendar day when your pet's modeled age catches your actual days lived.</span>
+              </li>
+            </ul>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        Made with ❤️ by <a href="https://merimerimeri.com/">MeriMeriMeri Software</a>
+      </footer>
+    </div>
+  </body>
+</html>

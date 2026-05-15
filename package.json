@@ -1,0 +1,16 @@
+{
+  "name": "samesyday",
+  "private": true,
+  "scripts": {
+    "build": "npm run build:css",
+    "build:css": "tailwindcss -i src/styles.css -o public/assets/styles.css --minify",
+    "dev:css": "tailwindcss -i src/styles.css -o public/assets/styles.css --watch",
+    "preview": "wrangler pages dev public",
+    "deploy": "wrangler pages deploy public --project-name=samesyday"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "tailwindcss": "^4",
+    "wrangler": "^4.48.0"
+  }
+}
