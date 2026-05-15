@@ -14,9 +14,4 @@ Open `http://localhost:4173`.
 
 ## Deployment
 
-```sh
-npm run build
-npm run deploy
-```
-
-The deploy command publishes the `public` directory to Cloudflare Pages with the project name `samesyday`.
+Cloudflare Pages deploys automatically from `main`.

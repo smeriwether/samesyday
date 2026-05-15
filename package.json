@@ -5,8 +5,7 @@
     "build": "npm run build:css",
     "build:css": "tailwindcss -i src/styles.css -o public/assets/styles.css --minify",
     "dev:css": "tailwindcss -i src/styles.css -o public/assets/styles.css --watch",
-    "preview": "wrangler pages dev public",
-    "deploy": "wrangler pages deploy public --project-name=samesyday"
+    "preview": "wrangler pages dev public"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.18",
