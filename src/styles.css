@@ -125,7 +125,7 @@
   }
 
   .page-shell {
-    @apply mx-auto flex min-h-screen w-full max-w-5xl flex-col px-4 py-6 sm:px-7 lg:px-10;
+    @apply mx-auto flex min-h-screen w-full max-w-4xl flex-col px-4 py-6 sm:px-7 lg:px-10;
   }
 
   .hero {
@@ -170,7 +170,7 @@
   }
 
   .field-group.compact {
-    @apply min-w-[8.5rem] flex-none;
+    @apply min-w-[8.5rem] flex-1;
   }
 
   @media (min-width: 56rem) {
