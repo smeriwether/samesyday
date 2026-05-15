@@ -37,7 +37,6 @@
   <rect width="1200" height="630" fill="url(#panelWash)"/>
   <rect width="1200" height="630" fill="url(#pageWash)" opacity="0.72"/>
   <rect width="1200" height="630" fill="url(#grid)" opacity="0.28"/>
-  <path d="M0 579 H1200" fill="none" stroke="#17211f" stroke-opacity="0.08" stroke-width="2"/>
   <path d="M0 51 H1200" fill="none" stroke="#fffffa" stroke-opacity="0.72" stroke-width="2"/>
 
   <g transform="translate(96 138)">
