@@ -10,7 +10,7 @@ import {
   parseDateInput,
   petCurve,
   todayUtc
-} from "./calculator.js?v=20260808-deploy-cache-fix";
+} from "./calculator.20260808.js";
 
 (function () {
   const form = document.getElementById("samesy-form");

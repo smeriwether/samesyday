@@ -9,7 +9,7 @@ import {
   daysBetween,
   inferDogSize,
   parseDateInput
-} from "../public/assets/calculator.js";
+} from "../public/assets/calculator.20260808.js";
 
 const TODAY = parseDateInput("2026-08-08");
 
