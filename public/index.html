@@ -23,8 +23,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Inter:wght@500;650;750;850;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/styles.css?v=20260515-exact-math-mobile">
-    <script src="assets/app.js" defer></script>
+    <link rel="stylesheet" href="assets/styles.css?v=20260808-experience-fixes">
+    <script type="module" src="assets/app.js?v=20260808-experience-fixes"></script>
   </head>
   <body>
     <a class="skip-link" href="#calculator-section">Skip to calculator</a>
@@ -52,31 +52,31 @@
               <span id="dog-details" class="dog-details">
                 <label class="field-group breed-field">
                   <span class="field-label">Dog breed</span>
-                  <select id="dog-breed" class="sentence-control" name="dogBreed" autocomplete="off">
-                    <option value="">Select a breed</option>
-                    <option>Australian Shepherd</option>
-                    <option>Beagle</option>
-                    <option>Bernese Mountain Dog</option>
-                    <option>Border Collie</option>
-                    <option>Boxer</option>
-                    <option>Bulldog</option>
-                    <option>Chihuahua</option>
-                    <option>Cocker Spaniel</option>
-                    <option>Dachshund</option>
-                    <option>French Bulldog</option>
-                    <option>German Shepherd</option>
-                    <option>Golden Retriever</option>
-                    <option>Great Dane</option>
-                    <option>Irish Wolfhound</option>
-                    <option>Labrador Retriever</option>
-                    <option>Mastiff</option>
-                    <option>Mixed Breed</option>
-                    <option>Newfoundland</option>
-                    <option>Pomeranian</option>
-                    <option>Poodle</option>
-                    <option>Shih Tzu</option>
-                    <option>Yorkshire Terrier</option>
-                  </select>
+                  <input id="dog-breed" class="sentence-control" name="dogBreed" type="text" list="dog-breed-options" placeholder="e.g. Golden Retriever…" maxlength="80" required autocomplete="off">
+                  <datalist id="dog-breed-options">
+                    <option value="Australian Shepherd"></option>
+                    <option value="Beagle"></option>
+                    <option value="Bernese Mountain Dog"></option>
+                    <option value="Border Collie"></option>
+                    <option value="Boxer"></option>
+                    <option value="Bulldog"></option>
+                    <option value="Chihuahua"></option>
+                    <option value="Cocker Spaniel"></option>
+                    <option value="Dachshund"></option>
+                    <option value="French Bulldog"></option>
+                    <option value="German Shepherd"></option>
+                    <option value="Golden Retriever"></option>
+                    <option value="Great Dane"></option>
+                    <option value="Irish Wolfhound"></option>
+                    <option value="Labrador Retriever"></option>
+                    <option value="Mastiff"></option>
+                    <option value="Mixed Breed"></option>
+                    <option value="Newfoundland"></option>
+                    <option value="Pomeranian"></option>
+                    <option value="Poodle"></option>
+                    <option value="Shih Tzu"></option>
+                    <option value="Yorkshire Terrier"></option>
+                  </datalist>
                 </label>
               </span>
               <span class="sentence-text born-text">was born on</span>
@@ -93,6 +93,7 @@
             </div>
 
             <button class="primary-button" type="submit">When is our Samesy Day?</button>
+            <p class="form-note">Calculated in your browser. Your dates aren't sent or saved.</p>
             <p id="form-error" class="error-text" role="alert" aria-live="assertive"></p>
           </form>
 

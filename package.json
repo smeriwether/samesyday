@@ -1,9 +1,12 @@
 {
   "name": "samesyday",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "npm run build:css",
     "build:css": "tailwindcss -i src/styles.css -o public/assets/styles.css --minify",
+    "test": "node --test",
+    "check": "npm test && npm run build",
     "dev:css": "tailwindcss -i src/styles.css -o public/assets/styles.css --watch",
     "preview": "wrangler pages dev public"
   },

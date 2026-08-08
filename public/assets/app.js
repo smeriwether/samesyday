@@ -1,45 +1,18 @@
+import {
+  CAT_CONVERSION,
+  addDays,
+  ageYearsFromDays,
+  calculateSamesyDay,
+  comparisonForDate,
+  daysBetween,
+  formatDateInput,
+  inferDogSize,
+  parseDateInput,
+  petCurve,
+  todayUtc
+} from "./calculator.js";
+
 (function () {
-  const YEAR_DAYS = 365.2425;
-  const DAY_MS = 24 * 60 * 60 * 1000;
-  const MAX_SEARCH_DAYS = Math.round(YEAR_DAYS * 80);
-  const DOG_CURVES = {
-    small: { firstYear: 7.2, adultYear: 6.4 },
-    medium: { firstYear: 8, adultYear: 7 },
-    large: { firstYear: 8.4, adultYear: 7.6 },
-    giant: { firstYear: 8.8, adultYear: 8.2 }
-  };
-
-  const CAT_CONVERSION = {
-    firstYear: 15,
-    secondYearTotal: 24,
-    laterYear: 4
-  };
-
-  const BREED_SIZES = new Map([
-    ["australian shepherd", "medium"],
-    ["beagle", "medium"],
-    ["bernese mountain dog", "giant"],
-    ["border collie", "medium"],
-    ["boxer", "large"],
-    ["bulldog", "medium"],
-    ["chihuahua", "small"],
-    ["cocker spaniel", "medium"],
-    ["dachshund", "small"],
-    ["french bulldog", "small"],
-    ["german shepherd", "large"],
-    ["golden retriever", "large"],
-    ["great dane", "giant"],
-    ["irish wolfhound", "giant"],
-    ["labrador retriever", "large"],
-    ["mastiff", "giant"],
-    ["mixed breed", "medium"],
-    ["newfoundland", "giant"],
-    ["pomeranian", "small"],
-    ["poodle", "medium"],
-    ["shih tzu", "small"],
-    ["yorkshire terrier", "small"]
-  ]);
-
   const form = document.getElementById("samesy-form");
   const petTypeInput = document.getElementById("pet-type");
   const petBirthdayInput = document.getElementById("pet-birthday");
@@ -64,30 +37,6 @@
     humanBirthday: humanBirthdayInput
   };
   let lastChartArgs = null;
-
-  function parseDateInput(value) {
-    if (!value) return null;
-    const parts = value.split("-").map(Number);
-    if (parts.length !== 3 || parts.some(Number.isNaN)) return null;
-    return new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
-  }
-
-  function todayUtc() {
-    const now = new Date();
-    return new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
-  }
-
-  function formatDateInput(date) {
-    return date.toISOString().slice(0, 10);
-  }
-
-  function addDays(date, days) {
-    return new Date(date.getTime() + days * DAY_MS);
-  }
-
-  function daysBetween(start, end) {
-    return Math.floor((end.getTime() - start.getTime()) / DAY_MS);
-  }
 
   function formatDate(date) {
     return new Intl.DateTimeFormat("en-US", {
@@ -136,149 +85,6 @@
     return error;
   }
 
-  function normalizeBreed(value) {
-    return value.trim().toLowerCase().replace(/\s+/g, " ");
-  }
-
-  function inferDogSize(breed) {
-    const normalized = normalizeBreed(breed);
-    if (BREED_SIZES.has(normalized)) {
-      return {
-        size: BREED_SIZES.get(normalized),
-        inferred: true,
-        recognized: true
-      };
-    }
-
-    const keywordChecks = [
-      [/chihuahua|pomeranian|shih|yorkie|terrier|dachshund|maltese|havanese|papillon|toy/, "small"],
-      [/beagle|collie|spaniel|bulldog|corgi|aussie|schnauzer|whippet/, "medium"],
-      [/retriever|labrador|shepherd|boxer|pointer|setter|doberman|rottweiler|hound/, "large"],
-      [/dane|mastiff|wolfhound|newfoundland|bernese|saint bernard|pyrenees/, "giant"]
-    ];
-
-    for (const [pattern, size] of keywordChecks) {
-      if (pattern.test(normalized)) {
-        return { size, inferred: true, recognized: true };
-      }
-    }
-
-    return { size: "medium", inferred: true, recognized: false };
-  }
-
-  function curvedShortcutYears(actualPetYears, curve) {
-    if (actualPetYears <= 0) return 0;
-    const secondYear = (curve.firstYear + curve.adultYear) / 2;
-    if (actualPetYears <= 1) return actualPetYears * curve.firstYear;
-    if (actualPetYears <= 2) return curve.firstYear + (actualPetYears - 1) * secondYear;
-    return curve.firstYear + secondYear + (actualPetYears - 2) * curve.adultYear;
-  }
-
-  function catConversionYears(actualPetYears) {
-    if (actualPetYears <= 0) return 0;
-    if (actualPetYears <= 1) return actualPetYears * CAT_CONVERSION.firstYear;
-    if (actualPetYears <= 2) {
-      return CAT_CONVERSION.firstYear + (actualPetYears - 1) * (CAT_CONVERSION.secondYearTotal - CAT_CONVERSION.firstYear);
-    }
-    return CAT_CONVERSION.secondYearTotal + (actualPetYears - 2) * CAT_CONVERSION.laterYear;
-  }
-
-  function petCurve(species, dogSize) {
-    return DOG_CURVES[dogSize] || DOG_CURVES.medium;
-  }
-
-  function petHumanEquivalentDays(petDays, species, dogSize) {
-    const actualPetYears = Math.max(0, petDays) / YEAR_DAYS;
-    if (species === "cat") {
-      return catConversionYears(actualPetYears) * YEAR_DAYS;
-    }
-    const curve = petCurve(species, dogSize);
-    return curvedShortcutYears(actualPetYears, curve) * YEAR_DAYS;
-  }
-
-  function comparisonForDate(date, humanBirthday, petBirthday, species, dogSize) {
-    const humanDays = Math.max(0, daysBetween(humanBirthday, date));
-    const petDays = Math.max(0, daysBetween(petBirthday, date));
-    const petEquivalentDays = petHumanEquivalentDays(petDays, species, dogSize);
-    return {
-      date,
-      humanDays,
-      petDays,
-      petEquivalentDays,
-      diff: petEquivalentDays - humanDays
-    };
-  }
-
-  function firstCrossingBetween(startDate, endDate, humanBirthday, petBirthday, species, dogSize) {
-    let low = 0;
-    let high = daysBetween(startDate, endDate);
-    while (low < high) {
-      const mid = Math.floor((low + high) / 2);
-      const date = addDays(startDate, mid);
-      const comparison = comparisonForDate(date, humanBirthday, petBirthday, species, dogSize);
-      if (comparison.diff >= 0) {
-        high = mid;
-      } else {
-        low = mid + 1;
-      }
-    }
-    return comparisonForDate(addDays(startDate, low), humanBirthday, petBirthday, species, dogSize);
-  }
-
-  function calculateSamesyDay({ humanBirthday, petBirthday, species, dogSize }) {
-    const today = todayUtc();
-    const firstSharedDate = humanBirthday > petBirthday ? humanBirthday : petBirthday;
-    const todayComparison = comparisonForDate(today, humanBirthday, petBirthday, species, dogSize);
-
-    if (Math.abs(todayComparison.diff) < 1) {
-      return {
-        status: "today",
-        target: todayComparison,
-        startDate: addDays(today, -30),
-        endDate: addDays(today, 30)
-      };
-    }
-
-    if (todayComparison.diff > 0) {
-      const firstSharedComparison = comparisonForDate(firstSharedDate, humanBirthday, petBirthday, species, dogSize);
-      const pastTarget = firstSharedComparison.diff <= 0
-        ? firstCrossingBetween(firstSharedDate, today, humanBirthday, petBirthday, species, dogSize)
-        : null;
-      return {
-        status: "passed",
-        target: pastTarget,
-        startDate: pastTarget ? addDays(pastTarget.date, -30) : firstSharedDate,
-        endDate: today
-      };
-    }
-
-    let high = 1;
-    while (high <= MAX_SEARCH_DAYS) {
-      const candidate = comparisonForDate(addDays(today, high), humanBirthday, petBirthday, species, dogSize);
-      if (candidate.diff >= 0) {
-        const target = firstCrossingBetween(today, candidate.date, humanBirthday, petBirthday, species, dogSize);
-        return {
-          status: "future",
-          target,
-          startDate: today,
-          endDate: target.date
-        };
-      }
-      high *= 2;
-    }
-
-    return {
-      status: "none",
-      target: null,
-      startDate: today,
-      endDate: addDays(today, MAX_SEARCH_DAYS)
-    };
-  }
-
-  function ageYearsFromDays(days) {
-    return days / YEAR_DAYS;
-  }
-
   function formatAgeYears(days) {
     const years = ageYearsFromDays(days);
     if (years < 1) {
@@ -306,10 +112,10 @@
 
     const label = sizeLabel(dogSizeInfo.size);
     if (!dogSizeInfo.recognized && dogSizeInfo.inferred) {
-      return `I could not place "${breed || "that breed"}", so this uses the ${label} curve near the 7-to-1 shortcut.`;
+      return `${breed || "That breed"} is not in the size list, so this uses the ${label} curve near the 7-to-1 shortcut.`;
     }
     if (dogSizeInfo.inferred && breed) {
-      return `Using the ${label} curve inferred from ${breed}, close to the 7-to-1 shortcut.`;
+      return `Based on ${breed}, this uses the ${label} curve near the 7-to-1 shortcut.`;
     }
     return `Using the ${label} curve near the 7-to-1 shortcut.`;
   }
@@ -319,6 +125,15 @@
     const humanBirthday = parseDateInput(humanBirthdayInput.value);
     const petBirthday = parseDateInput(petBirthdayInput.value);
     const today = todayUtc();
+
+    if (species !== "cat" && species !== "dog") {
+      throw validationError("petType", "Choose cat or dog.");
+    }
+
+    const breed = dogBreedInput.value.trim();
+    if (species === "dog" && !breed) {
+      throw validationError("dogBreed", "Enter your dog's breed so the calculator can choose an aging curve.");
+    }
 
     if (!petBirthday) {
       throw validationError("petBirthday", "Add your pet's birthday.");
@@ -334,15 +149,6 @@
 
     if (humanBirthday > today) {
       throw validationError("humanBirthday", "Use your birthday or an earlier date.");
-    }
-
-    if (species !== "cat" && species !== "dog") {
-      throw validationError("petType", "Choose cat or dog.");
-    }
-
-    const breed = dogBreedInput.value.trim();
-    if (species === "dog" && !breed) {
-      throw validationError("dogBreed", "Choose a dog breed so I can pick the right aging curve.");
     }
 
     const dogSizeInfo = species === "dog"
@@ -380,7 +186,7 @@
   function showError(message, field) {
     errorText.textContent = message;
     errorText.classList.add("is-visible");
-    answerPanel.classList.add("is-hidden");
+    hideAnswer();
     if (field) {
       showFieldError(field);
     }
@@ -390,6 +196,16 @@
     errorText.textContent = "";
     errorText.classList.remove("is-visible");
     Object.keys(fieldControls).forEach(clearFieldError);
+  }
+
+  function hideAnswer() {
+    answerPanel.classList.add("is-hidden");
+    lastChartArgs = null;
+  }
+
+  function handleInputChange() {
+    clearError();
+    hideAnswer();
   }
 
   function updateSpeciesFields() {
@@ -411,7 +227,7 @@
   function revealAnswerPanel() {
     answerPanel.classList.remove("is-hidden");
     requestAnimationFrame(() => {
-      answerPanel.focus({ preventScroll: true });
+      answerPanel.focus();
     });
   }
 
@@ -612,16 +428,22 @@
   }
 
   petTypeInput.addEventListener("change", () => {
-    clearError();
+    handleInputChange();
     updateSpeciesFields();
   });
-  dogBreedInput.addEventListener("change", clearError);
-  petBirthdayInput.addEventListener("input", clearError);
-  humanBirthdayInput.addEventListener("input", clearError);
+  dogBreedInput.addEventListener("input", handleInputChange);
+  petBirthdayInput.addEventListener("input", handleInputChange);
+  humanBirthdayInput.addEventListener("input", handleInputChange);
+
+  let resizeFrame = null;
   window.addEventListener("resize", () => {
-    if (!answerPanel.classList.contains("is-hidden") && lastChartArgs) {
-      drawChart(lastChartArgs);
-    }
+    if (resizeFrame) cancelAnimationFrame(resizeFrame);
+    resizeFrame = requestAnimationFrame(() => {
+      resizeFrame = null;
+      if (!answerPanel.classList.contains("is-hidden") && lastChartArgs) {
+        drawChart(lastChartArgs);
+      }
+    });
   });
 
   form.addEventListener("submit", (event) => {
